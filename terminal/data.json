@@ -1,0 +1,6 @@
+{
+    "entry": "app.s",
+    "link": [
+        "applications/echo.s"
+    ]
+}
