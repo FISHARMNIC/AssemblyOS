@@ -1,6 +1,7 @@
 {
-    "entry": "app.s",
+    "entry": "kernel.s",
     "link": [
-        "applications/echo.s"
+        "applications/echo.s",
+        "applications/debug.s"
     ]
 }

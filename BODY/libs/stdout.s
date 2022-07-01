@@ -41,6 +41,16 @@ format_VGA_proc:
     or %eax, %ebx # Append the format with the character
     ret 
 
+// Clearing
+clear_vga_proc:
+    mov %ecx, 4000
+    mov %al, 0
+    mov %edi, 0xb8000
+    rep stosb
+    mov %ebx, VGA_ADDR
+    mov ttypos, %ebx
+    ret
+
 // Adding a new line
 newline_proc:
     // newline = position  + (80 - (position % 80))
@@ -53,6 +63,9 @@ newline_proc:
     sub %ecx, VGA_ADDR 
     shr %ecx, 1 # ecx holds relative tty
 
+    cmp %ecx, 1920
+    jg _newline.refresh
+
     mov %eax, %ecx
     mov %ebx, 80 # divisor
     div %ebx # remainder (mod) in %edx
@@ -64,6 +77,10 @@ newline_proc:
     
     mov %ebx, VGA_ADDR
     add ttypos, %ebx
+    popa
+    ret
+    _newline.refresh:
+    call clear_vga_proc
     popa
     ret
 

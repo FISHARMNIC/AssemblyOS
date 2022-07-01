@@ -10,16 +10,16 @@ var hostname = data.entry
 var tolink = data.link
 
     ; (async function main() {
-        await qexec(`as --32 boot/boot.s -o compiled/boot.o`) // boot
+        await qexec(`rm -r /home/kali/Documents/asmOS/BODY/compiled/*`) // clean
+        await qexec(`as --32 boot/boot.s -o compiled/boot.o`) // bootloader
         for (var i = 0; i < tolink.length; i++) {
             var special = tolink[i].slice(0, -2)
             if (special.includes("/")) {
-                console.log(" ========== UFHUEFHRUIHIUFHIRUEFHERUIFHUIERHFUIEH")
                 special = special.split(/\//g).pop();
                 console.log(special)
             }
 
-            await qexec(`as --32 ${path}/${tolink[i]} -o compiled/${special}.o`)
+            await qexec(`as --32 ${path}/${tolink[i]} -o compiled/${special}.o`) // all other files
 
         }
 
@@ -28,8 +28,9 @@ var tolink = data.link
                 tolink[i] = tolink[i].split(/\//g).pop();
         }
 
-        await qexec(`as --32 ${path}/${hostname} -o compiled/kernel.o`)
-        await qexec(`ld -m elf_i386 -T boot/linker.ld compiled/kernel.o ${tolink.map(x => `compiled/${x.slice(0, -2)}.o`)} compiled/boot.o -o compiled/MyOS.bin -nostdlib`)
+        await qexec(`as --32 ${path}/${hostname} -o compiled/kernel.o`) // kernel
+        // link
+        await qexec(`ld -m elf_i386 -T boot/linker.ld compiled/kernel.o ${tolink.map(x => `compiled/${x.slice(0, -2)}.o`).join(" ")} compiled/boot.o -o compiled/MyOS.bin -nostdlib`)
 
         await qexec(`grub-file --is-x86-multiboot compiled/MyOS.bin`)
         await qexec(`mkdir -p isodir/boot/grub`)

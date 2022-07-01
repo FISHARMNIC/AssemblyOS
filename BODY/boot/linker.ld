@@ -20,7 +20,7 @@ SECTIONS
 	}
 
 	/* data section */
-	.data BLOCK(4K) : ALIGN(4K)
+	.data BLOCK(8K) : ALIGN(8K)
 	{
 		*(.data)
 	}
