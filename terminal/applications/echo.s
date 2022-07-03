@@ -1,10 +1,9 @@
 .intel_syntax
-
 .global echo.main
 
-.include "libs/syscall.s"
-__TEXT__
+.include "libs/sys/system.s"
 
+.section .text
 echo.main:
     pusha
     put_line

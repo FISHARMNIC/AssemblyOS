@@ -2,6 +2,7 @@
     "entry": "kernel.s",
     "link": [
         "applications/echo.s",
-        "applications/debug.s"
+        "applications/debug.s",
+        "applications/snake.s"
     ]
 }

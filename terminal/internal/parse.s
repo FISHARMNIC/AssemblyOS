@@ -1,11 +1,3 @@
-.section .data
-
-.comm pbuffer_1, 15, 1
-.comm pbuffer_2, 15, 1
-
-.global pbuffer_1
-.global pbuffer_2
-
 .section .text
 
 parse_command:
